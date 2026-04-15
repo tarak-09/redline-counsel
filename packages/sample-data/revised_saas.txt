@@ -1,0 +1,24 @@
+SOFTWARE AS A SERVICE SUBSCRIPTION AGREEMENT
+
+This SaaS Subscription Agreement ("Agreement") is entered into as of February 15, 2024, between CloudPlatform Corp., a Delaware corporation ("Provider"), and RetailCo Inc., a Texas corporation ("Customer").
+
+SECTION 1. SUBSCRIPTION SERVICES
+Provider grants Customer a non-exclusive, non-transferable right to access and use the Provider's cloud-based software platform ("Platform") during the Subscription Term solely for Customer's internal business purposes. Access is limited to the number of user seats specified in the applicable Order Form. Customer may not sublicense, resell, or permit third parties to access the Platform without Provider's prior written consent.
+
+SECTION 2. FEES AND PAYMENT
+Customer shall pay all subscription fees set forth in the Order Form on a monthly basis, due within thirty (30) days of invoice. Provider may increase subscription fees upon ninety (90) days prior written notice to Customer, and such increases shall not exceed five percent (5%) annually. All fees are non-refundable except as expressly set forth herein.
+
+SECTION 3. SERVICE LEVEL AGREEMENT
+Provider shall use commercially reasonable efforts to make the Platform available with 99.9% uptime measured monthly, excluding scheduled maintenance, which shall not exceed four (4) hours per month and shall occur outside of 8am–8pm EST on business days. In the event of downtime below the SLA threshold, Customer shall receive service credits of 10% of monthly fees for each hour of excess downtime, up to a maximum of 30% of monthly fees. Customer may terminate this Agreement without penalty if Provider fails to meet the SLA for three (3) consecutive months.
+
+SECTION 4. DATA OWNERSHIP AND SECURITY
+Customer retains all rights to data it submits to the Platform ("Customer Data"). Provider shall implement SOC 2 Type II-certified security measures to protect Customer Data and shall provide Customer with audit reports upon request. Provider shall not access Customer Data except as necessary to provide the services or as required by law. Upon termination, Provider shall return or destroy all Customer Data within thirty (30) days.
+
+SECTION 5. INTELLECTUAL PROPERTY
+Provider retains all rights to the Platform, including all underlying software, algorithms, and documentation. Customer grants Provider a limited license to use Customer Data solely to provide the services. Provider shall not use Customer Data, including in aggregated or anonymized form, to train machine learning models, improve competing products, or for any purpose other than direct service delivery without Customer's express written consent.
+
+SECTION 6. TERM AND TERMINATION
+The initial Subscription Term is one (1) year, automatically renewing for successive one-year terms unless either party provides thirty (30) days written notice of non-renewal. Customer may terminate for cause upon written notice if Provider materially breaches this Agreement and fails to cure within fifteen (15) days. Upon termination for Provider's breach, Provider shall refund all prepaid, unused fees.
+
+SECTION 7. LIMITATION OF LIABILITY
+Provider's total liability shall not exceed the fees paid by Customer in the twelve (12) months preceding the claim. Neither party shall be liable for indirect or consequential damages, except that this limitation shall not apply to breaches of confidentiality or data security obligations.

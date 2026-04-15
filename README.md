@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Redline Counsel
 
-## Getting Started
+<!-- SCREENSHOT -->
 
-First, run the development server:
+> Live demo: [redline-counsel.vercel.app](#) _(add after deploy)_
+
+AI-powered contract negotiation simulator. Upload two versions of a contract, choose an opposing-counsel persona (aggressive procurement, cautious in-house, or neutral mediator), and get a clause-by-clause risk analysis with live streaming counterproposals — all powered by Claude 3.5 Sonnet.
+
+![Next.js](https://img.shields.io/badge/Next.js-14-black) ![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38bdf8) ![Claude](https://img.shields.io/badge/Claude-3.5_Sonnet-orange) ![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI_SDK-streaming-black)
+
+## Quick start
 
 ```bash
+git clone https://github.com/your-username/redline-counsel
+cd redline-counsel
+npm install
+cp .env.example .env.local   # then open .env.local and paste your key
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Get a **free** API key at **aistudio.google.com/app/apikey** — no credit card required. Open [http://localhost:3000](http://localhost:3000) and click **⚡ Load sample** to see a full demo instantly.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+parse → diff → classify → chat
 
-## Learn More
+1. parse     Split both contracts into numbered SECTION blocks
+2. diff      Compare sections key-by-key, extract what changed
+3. classify  Single Claude call labels each diff: issue_type, risk_level, one_liner
+4. chat      Streaming Claude responses from a persona-conditioned system prompt
+             with clause citations and counterproposal blocks
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Why this exists
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contract redlines are one of the highest-friction parts of any deal. Lawyers spend hours manually reviewing clause-by-clause changes without a clear picture of which changes are risky and what counterproposal language to offer. Redline Counsel gives any negotiator an AI sparring partner that argues from a specific persona, cites clauses by number, and proposes concrete replacement language — turning a passive document review into an active negotiation simulation.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech stack
 
-## Deploy on Vercel
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 14 App Router |
+| Language | TypeScript (strict) |
+| Styling | Tailwind CSS |
+| LLM | Claude 3.5 Sonnet via Anthropic SDK |
+| Streaming | Vercel AI SDK (`useChat`, `streamText`) |
+| State | Zustand (no persistence needed) |
+| Diffing | Custom section parser + key comparison |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy to Vercel with one env var — no database, no Redis, no additional services:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```

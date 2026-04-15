@@ -1,0 +1,21 @@
+NON-DISCLOSURE AGREEMENT
+
+This Non-Disclosure Agreement ("Agreement") is entered into as of March 1, 2024, between Pinnacle Ventures LLC, a Delaware limited liability company ("Disclosing Party"), and Horizon Analytics Inc., a New York corporation ("Receiving Party").
+
+SECTION 1. DEFINITION OF CONFIDENTIAL INFORMATION
+"Confidential Information" means any non-public information disclosed by the Disclosing Party to the Receiving Party, whether orally, in writing, or by any other means, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and the circumstances of disclosure, including but not limited to business plans, financial data, product roadmaps, customer lists, and technical specifications.
+
+SECTION 2. OBLIGATIONS OF RECEIVING PARTY
+The Receiving Party agrees to: (a) hold all Confidential Information in strict confidence; (b) not disclose any Confidential Information to third parties without prior written consent of the Disclosing Party; (c) use Confidential Information solely for the purpose of evaluating a potential business relationship between the parties ("Permitted Purpose"); and (d) protect Confidential Information using at least the same degree of care it uses to protect its own confidential information, but in no event less than reasonable care.
+
+SECTION 3. EXCLUSIONS
+The obligations in Section 2 do not apply to information that: (a) is or becomes publicly known through no breach of this Agreement; (b) was rightfully known to the Receiving Party prior to disclosure; (c) is rightfully received from a third party without restriction; or (d) is independently developed by the Receiving Party without use of Confidential Information.
+
+SECTION 4. TERM
+This Agreement shall remain in effect for two (2) years from the date of execution. The confidentiality obligations with respect to Confidential Information disclosed during the term shall survive for three (3) years following the termination of this Agreement.
+
+SECTION 5. RETURN OF INFORMATION
+Upon written request by the Disclosing Party, the Receiving Party shall promptly return or destroy all Confidential Information and certify in writing that it has done so.
+
+SECTION 6. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of New York, without regard to conflict of laws principles. Disputes shall be resolved exclusively in the courts of New York County, New York.

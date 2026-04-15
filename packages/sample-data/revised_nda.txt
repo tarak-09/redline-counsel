@@ -1,0 +1,21 @@
+NON-DISCLOSURE AGREEMENT
+
+This Non-Disclosure Agreement ("Agreement") is entered into as of March 1, 2024, between Pinnacle Ventures LLC, a Delaware limited liability company ("Disclosing Party"), and Horizon Analytics Inc., a New York corporation ("Receiving Party").
+
+SECTION 1. DEFINITION OF CONFIDENTIAL INFORMATION
+"Confidential Information" means any non-public information disclosed by the Disclosing Party to the Receiving Party in written or electronic form that is conspicuously marked "Confidential" at the time of disclosure. Oral disclosures shall only be considered Confidential Information if confirmed in writing within five (5) business days of the oral disclosure. "Confidential Information" expressly excludes any information relating to the Receiving Party's existing or independently developed analytical methodologies, software tools, and data processing techniques.
+
+SECTION 2. OBLIGATIONS OF RECEIVING PARTY
+The Receiving Party agrees to: (a) hold all Confidential Information in confidence using commercially reasonable security measures; (b) not disclose any Confidential Information to third parties without prior written consent of the Disclosing Party, except to its employees, contractors, and advisors who have a need to know and are bound by confidentiality obligations no less protective than those herein; (c) use Confidential Information solely for the Permitted Purpose; and (d) notify the Disclosing Party promptly upon discovery of any unauthorized use or disclosure of Confidential Information.
+
+SECTION 3. EXCLUSIONS
+The obligations in Section 2 do not apply to information that: (a) is or becomes publicly known through no breach of this Agreement; (b) was rightfully known to the Receiving Party prior to disclosure; (c) is rightfully received from a third party without restriction; (d) is independently developed by the Receiving Party without use of Confidential Information; or (e) is required to be disclosed by applicable law, regulation, or court order, provided that the Receiving Party gives the Disclosing Party prompt written notice and reasonable assistance in seeking a protective order.
+
+SECTION 4. TERM
+This Agreement shall remain in effect for one (1) year from the date of execution. The confidentiality obligations with respect to Confidential Information disclosed during the term shall survive for one (1) year following the termination of this Agreement.
+
+SECTION 5. RETURN OF INFORMATION
+Upon written request by the Disclosing Party or upon termination of this Agreement, the Receiving Party shall, at its election, return or destroy all tangible Confidential Information. The Receiving Party may retain one (1) archival copy of Confidential Information solely for compliance purposes.
+
+SECTION 6. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of Delaware, without regard to conflict of laws principles. Disputes shall be resolved through binding arbitration under the JAMS rules in New York City.
