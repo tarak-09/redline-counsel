@@ -108,15 +108,8 @@ export function UploadZone({ label, variant, value, onChange }: UploadZoneProps)
         )}
       </div>
 
-      {value ? (
-        <div className={cn('rounded-lg border-2 px-4 py-3 flex items-center gap-3', accentBorder, accentBg)}>
-          <FileText className={cn('h-5 w-5 shrink-0', iconColor)} />
-          <div className="min-w-0">
-            <p className="text-sm font-medium text-slate-700 truncate">{fileName ?? 'Contract loaded'}</p>
-            <p className="text-xs text-slate-500">{value.length.toLocaleString()} characters</p>
-          </div>
-        </div>
-      ) : (
+      {/* Drop zone — compact when loaded */}
+      {!value ? (
         <label
           className={cn(
             'flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-4 py-8 cursor-pointer transition-all',
@@ -143,25 +136,31 @@ export function UploadZone({ label, variant, value, onChange }: UploadZoneProps)
             disabled={isReading}
           />
         </label>
+      ) : (
+        <div className={cn('flex items-center gap-2 rounded-lg border px-3 py-2', accentBorder, accentBg)}>
+          <FileText className={cn('h-4 w-4 shrink-0', iconColor)} />
+          <span className="text-xs font-medium text-slate-700 truncate flex-1">
+            {fileName ?? 'Contract loaded'}
+          </span>
+          <span className="text-xs text-slate-400 shrink-0">{value.length.toLocaleString()} chars</span>
+        </div>
       )}
 
       {readError && (
         <p className="text-xs text-red-600">{readError}</p>
       )}
 
-      {!value && (
-        <textarea
-          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none"
-          rows={4}
-          placeholder="Or paste contract text here…"
-          onChange={(e) => {
-            if (e.target.value) {
-              setFileName(null)
-              onChange(e.target.value)
-            }
-          }}
-        />
-      )}
+      {/* Textarea — always visible, shows loaded text */}
+      <textarea
+        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none"
+        rows={5}
+        placeholder="Or paste contract text here…"
+        value={value}
+        onChange={(e) => {
+          setFileName(null)
+          onChange(e.target.value)
+        }}
+      />
     </div>
   )
 }

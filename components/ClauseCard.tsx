@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Copy, Check, ChevronDown, ChevronUp } from 'lucide-react'
 import type { ClauseChange } from '@/lib/types'
+import { wordDiff } from '@/lib/wordDiff'
 
 const riskBadge = {
   HIGH:   'bg-red-50 text-red-600 border border-red-200',
@@ -110,31 +111,23 @@ export function ClauseCard({ clause, isActive, onClick }: ClauseCardProps) {
         </button>
       </div>
 
-      {/* Expanded text diff */}
+      {/* Inline word diff */}
       {expanded && (
-        <div className="px-3 pb-3 space-y-2.5 border-t border-slate-100 pt-2.5">
-          {clause.originalText && (
-            <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Original
-              </p>
-              <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 rounded-lg p-2.5 border border-slate-100">
-                {clause.originalText.slice(0, 300)}
-                {clause.originalText.length > 300 ? '…' : ''}
-              </p>
-            </div>
-          )}
-          {clause.revisedText && (
-            <div>
-              <p className="text-xs font-semibold text-violet-500 uppercase tracking-wider mb-1.5">
-                Revised
-              </p>
-              <p className="text-xs text-slate-600 leading-relaxed bg-violet-50 rounded-lg p-2.5 border border-violet-100">
-                {clause.revisedText.slice(0, 300)}
-                {clause.revisedText.length > 300 ? '…' : ''}
-              </p>
-            </div>
-          )}
+        <div className="px-3 pb-3 pt-2.5 border-t border-slate-100">
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+            Changes
+          </p>
+          <p className="text-xs leading-relaxed bg-slate-50 rounded-lg p-2.5 border border-slate-100">
+            {wordDiff(clause.originalText, clause.revisedText).map((token, i) =>
+              token.type === 'removed' ? (
+                <span key={i} className="bg-red-100 text-red-700 line-through">{token.text}</span>
+              ) : token.type === 'added' ? (
+                <span key={i} className="bg-green-100 text-green-700 font-medium">{token.text}</span>
+              ) : (
+                <span key={i} className="text-slate-600">{token.text}</span>
+              )
+            )}
+          </p>
         </div>
       )}
     </div>
