@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Scale, Loader2 } from 'lucide-react'
+import { Scale, Loader2, FileText } from 'lucide-react'
 import { UploadZone } from '@/components/UploadZone'
 import { PersonaSelector } from '@/components/PersonaSelector'
 import { useNegotiationStore } from '@/store/negotiation'
@@ -15,6 +15,14 @@ const SAMPLE_CONTRACTS = [
   { type: 'employment', label: 'Employment', description: 'Employment Agreement' },
 ] as const
 
+const ANALYZING_STEPS = [
+  'Parsing contract sections…',
+  'Identifying changed clauses…',
+  'Assessing risk levels…',
+  'Generating clause summaries…',
+  'Finalizing analysis…',
+]
+
 type SampleType = (typeof SAMPLE_CONTRACTS)[number]['type']
 
 export default function UploadPage() {
@@ -25,8 +33,18 @@ export default function UploadPage() {
   const [revised, setRevised] = useState('')
   const [persona, setLocalPersona] = useState<PersonaId | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [analyzingStep, setAnalyzingStep] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const [loadingSample, setLoadingSample] = useState<SampleType | null>(null)
+
+  useEffect(() => {
+    if (!isAnalyzing) return
+    setAnalyzingStep(0)
+    const interval = setInterval(() => {
+      setAnalyzingStep((s) => (s < ANALYZING_STEPS.length - 1 ? s + 1 : s))
+    }, 1400)
+    return () => clearInterval(interval)
+  }, [isAnalyzing])
 
   async function loadSampleContracts(type: SampleType) {
     setLoadingSample(type)
@@ -80,79 +98,121 @@ export default function UploadPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-2">
-          <Scale className="h-5 w-5 text-blue-600" />
-          <span className="text-base font-bold text-slate-800">Redline Counsel</span>
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-2.5">
+          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-600">
+            <Scale className="h-4 w-4 text-white" />
+          </div>
+          <span className="text-sm font-bold text-slate-900 tracking-tight">Redline Counsel</span>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-10 space-y-8">
-        <div className="text-center space-y-3">
-          <h1 className="text-3xl font-bold text-slate-900">
+      <main className="max-w-5xl mx-auto px-6 py-12 space-y-10">
+        {/* Hero */}
+        <div className="text-center space-y-4 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-medium text-blue-700 mb-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            Powered by Claude claude-sonnet-4-6
+          </div>
+          <h1 className="text-4xl font-bold text-slate-900 tracking-tight text-balance">
             Simulate opposing counsel.{' '}
             <span className="text-blue-600">Negotiate smarter.</span>
           </h1>
-          <p className="text-slate-500 max-w-xl mx-auto text-sm leading-relaxed">
+          <p className="text-slate-500 text-base leading-relaxed">
             Upload your original and redlined contracts, choose a negotiating persona, and get
             clause-by-clause AI analysis with live streaming counterproposals.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2">
-          <span className="self-center text-xs text-slate-400 font-medium mr-1">⚡ Load sample:</span>
-          {SAMPLE_CONTRACTS.map(({ type, label, description }) => (
-            <button
-              key={type}
-              onClick={() => loadSampleContracts(type)}
-              disabled={loadingSample !== null}
-              title={description}
-              className="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors disabled:opacity-60 font-medium"
-            >
-              {loadingSample === type ? (
-                <><Loader2 className="h-3.5 w-3.5 animate-spin" />{label}</>
-              ) : (
-                label
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-          <h2 className="text-sm font-semibold text-slate-700">Upload contracts</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <UploadZone label="Original Contract" variant="original" value={original} onChange={setOriginal} />
-            <UploadZone label="Revised Contract" variant="revised" value={revised} onChange={setRevised} />
+        {/* Sample contracts */}
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+            Or load a sample
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {SAMPLE_CONTRACTS.map(({ type, description }) => (
+              <button
+                key={type}
+                onClick={() => loadSampleContracts(type)}
+                disabled={loadingSample !== null}
+                title={description}
+                className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition-all disabled:opacity-50 font-medium shadow-sm"
+              >
+                {loadingSample === type ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-500" />
+                ) : (
+                  <FileText className="h-3.5 w-3.5 text-slate-400" />
+                )}
+                {description}
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-          <h2 className="text-sm font-semibold text-slate-700">Choose opposing counsel persona</h2>
-          <PersonaSelector value={persona} onChange={setLocalPersona} />
+        {/* Upload section */}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100">
+            <h2 className="text-sm font-semibold text-slate-800">Upload contracts</h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Supports .txt, .md, and .pdf — or paste text directly
+            </p>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <UploadZone label="Original Contract" variant="original" value={original} onChange={setOriginal} />
+              <UploadZone label="Revised Contract" variant="revised" value={revised} onChange={setRevised} />
+            </div>
+          </div>
         </div>
 
+        {/* Persona section */}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100">
+            <h2 className="text-sm font-semibold text-slate-800">Choose opposing counsel persona</h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              The persona shapes how the AI argues and what concessions it prioritizes
+            </p>
+          </div>
+          <div className="p-6">
+            <PersonaSelector value={persona} onChange={setLocalPersona} />
+          </div>
+        </div>
+
+        {/* Error */}
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 flex items-start gap-2">
+            <span className="mt-0.5">⚠</span>
+            <span>{error}</span>
           </div>
         )}
 
-        <div className="flex justify-center pb-4">
+        {/* Analyze CTA */}
+        <div className="flex flex-col items-center gap-3 pb-4">
           <button
             onClick={handleAnalyze}
             disabled={!canAnalyze}
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm"
+            className="inline-flex items-center gap-2.5 px-10 py-3.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 active:bg-blue-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
           >
             {isAnalyzing ? (
-              <><Loader2 className="h-4 w-4 animate-spin" />Analyzing with Claude…</>
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {ANALYZING_STEPS[analyzingStep]}
+              </>
             ) : (
-              'Analyze Contracts →'
+              'Analyze Contracts'
             )}
           </button>
+          {!canAnalyze && !isAnalyzing && (
+            <p className="text-xs text-slate-400">
+              {!original || !revised
+                ? 'Upload both contract versions to continue'
+                : 'Select a persona to continue'}
+            </p>
+          )}
         </div>
       </main>
 
       <footer className="text-center pb-8 text-xs text-slate-400">
-        Built for Ruli engineering interview · Powered by Claude
+        Redline Counsel · AI-powered contract negotiation
       </footer>
     </div>
   )

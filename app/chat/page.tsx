@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Scale, ArrowLeft } from 'lucide-react'
+import { Scale, ArrowLeft, AlertTriangle } from 'lucide-react'
 import { useNegotiationStore } from '@/store/negotiation'
 import { ClauseNavigator } from '@/components/ClauseNavigator'
 import { ChatPanel } from '@/components/ChatPanel'
@@ -28,6 +28,8 @@ export default function ChatPage() {
 
   if (!analysis) return null
 
+  const highRiskCount = analysis.clauses.filter((c) => c.risk_level === 'HIGH').length
+
   return (
     <div className="flex flex-col h-screen bg-slate-50 overflow-hidden">
       {/* Header */}
@@ -35,36 +37,59 @@ export default function ChatPage() {
         <div className="px-4 py-3 flex items-center gap-3">
           <button
             onClick={() => router.push('/')}
-            className="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-lg hover:bg-slate-100"
-            aria-label="Back"
+            className="text-slate-400 hover:text-slate-600 transition-colors p-1.5 rounded-lg hover:bg-slate-100"
+            aria-label="Back to upload"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <Scale className="h-5 w-5 text-blue-600" />
-          <span className="text-base font-bold text-slate-800">Redline Counsel</span>
-          <div className="ml-auto flex items-center gap-3 text-xs text-slate-400">
-            <span className="hidden sm:block">
-              {analysis.clauses.length} clauses changed
-            </span>
-            <span className="hidden sm:block">·</span>
-            <span className="hidden sm:block">
-              friction score {analysis.frictionScore}/100
-            </span>
+
+          <div className="flex items-center justify-center w-6 h-6 rounded-md bg-blue-600">
+            <Scale className="h-3.5 w-3.5 text-white" />
+          </div>
+          <span className="text-sm font-bold text-slate-900 tracking-tight">Redline Counsel</span>
+
+          <div className="ml-auto flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500">
+              <span className="font-medium text-slate-700">{analysis.clauses.length}</span>
+              <span>clauses changed</span>
+            </div>
+            {highRiskCount > 0 && (
+              <div className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-full px-2.5 py-1">
+                <AlertTriangle className="h-3 w-3" />
+                {highRiskCount} high risk
+              </div>
+            )}
+            <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500">
+              <span>Friction</span>
+              <span
+                className={[
+                  'font-bold tabular-nums',
+                  analysis.frictionScore >= 70
+                    ? 'text-red-600'
+                    : analysis.frictionScore >= 40
+                    ? 'text-amber-600'
+                    : 'text-emerald-600',
+                ].join(' ')}
+              >
+                {analysis.frictionScore}/100
+              </span>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Split layout */}
       <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
-        {/* Left — Clause navigator (35%) */}
-        <div className="w-full md:w-[35%] md:max-w-[380px] shrink-0 border-b md:border-b-0 md:border-r border-slate-200 overflow-hidden flex flex-col">
-          <div className="h-56 md:h-full overflow-y-auto">
+        {/* Left — Clause navigator */}
+        <div className="w-full md:w-[340px] shrink-0 border-b md:border-b-0 md:border-r border-slate-200 overflow-hidden flex flex-col">
+          {/* Mobile: fixed height scrollable strip */}
+          <div className="h-52 md:h-full overflow-y-auto">
             <ClauseNavigator onClauseSelect={handleClauseSelect} />
           </div>
         </div>
 
-        {/* Right — Chat (65%) */}
-        <div className="flex-1 overflow-hidden">
+        {/* Right — Chat */}
+        <div className="flex-1 overflow-hidden min-w-0">
           <ChatPanel
             onClauseHighlight={handleClauseHighlight}
             pendingQuestion={pendingQuestion}

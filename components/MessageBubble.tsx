@@ -1,3 +1,5 @@
+import { Gavel } from 'lucide-react'
+
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
   content: string
@@ -11,7 +13,10 @@ function parseCounterproposal(text: string): { main: string; counterproposal: st
   if (idx === -1) return { main: text, counterproposal: null }
   return {
     main: text.slice(0, idx).trim(),
-    counterproposal: text.slice(idx).replace(/\ncounterproposal:/i, '').trim(),
+    counterproposal: text
+      .slice(idx)
+      .replace(/\ncounterproposal:/i, '')
+      .trim(),
   }
 }
 
@@ -37,13 +42,19 @@ function renderWithClauseLinks(
   })
 }
 
-export function MessageBubble({ role, content, personaName, personaIcon, onClauseClick }: MessageBubbleProps) {
+export function MessageBubble({
+  role,
+  content,
+  personaName,
+  personaIcon,
+  onClauseClick,
+}: MessageBubbleProps) {
   const isUser = role === 'user'
 
   if (isUser) {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[75%] rounded-2xl rounded-tr-sm bg-blue-600 px-4 py-2.5 text-sm text-white leading-relaxed">
+        <div className="max-w-[78%] rounded-2xl rounded-tr-sm bg-blue-600 px-4 py-3 text-sm text-white leading-relaxed">
           {content}
         </div>
       </div>
@@ -54,22 +65,37 @@ export function MessageBubble({ role, content, personaName, personaIcon, onClaus
 
   return (
     <div className="flex gap-3">
-      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-slate-200">
+      {/* Avatar */}
+      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-slate-200 select-none">
         {personaIcon}
       </div>
+
       <div className="flex-1 max-w-[85%] space-y-2">
-        <div className="rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3 text-sm text-slate-800 leading-relaxed">
-          <p className="text-xs font-semibold text-slate-500 mb-1.5">{personaName}</p>
-          <p className="whitespace-pre-wrap">{renderWithClauseLinks(main, onClauseClick)}</p>
+        {/* Main message bubble */}
+        <div className="rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3">
+          <p className="text-xs font-semibold text-slate-400 mb-1.5">{personaName}</p>
+          <p className="text-sm text-slate-800 leading-relaxed whitespace-pre-wrap">
+            {renderWithClauseLinks(main, onClauseClick)}
+          </p>
         </div>
+
+        {/* Counterproposal block */}
         {counterproposal && (
-          <div className="rounded-xl bg-sky-50 border border-sky-200 px-4 py-3">
-            <p className="text-xs font-bold text-sky-700 uppercase tracking-wider mb-2">
-              Counterproposal
-            </p>
-            <p className="text-xs font-mono text-sky-900 leading-relaxed whitespace-pre-wrap">
-              {counterproposal}
-            </p>
+          <div className="rounded-xl bg-indigo-50 border border-indigo-200 overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-2 border-b border-indigo-200 bg-indigo-100/60">
+              <Gavel className="h-3.5 w-3.5 text-indigo-600" />
+              <span className="text-xs font-bold text-indigo-700 uppercase tracking-widest">
+                Counterproposal
+              </span>
+            </div>
+            <div className="px-4 py-3">
+              <p
+                className="text-xs leading-relaxed whitespace-pre-wrap text-indigo-900"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                {counterproposal}
+              </p>
+            </div>
           </div>
         )}
       </div>

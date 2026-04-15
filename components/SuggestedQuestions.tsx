@@ -1,5 +1,6 @@
 'use client'
 
+import { Lightbulb } from 'lucide-react'
 import type { ClauseChange } from '@/lib/types'
 
 interface SuggestedQuestionsProps {
@@ -22,16 +23,22 @@ export function SuggestedQuestions({ clauses, onSelect }: SuggestedQuestionsProp
   ]
 
   return (
-    <div className="flex flex-wrap gap-2 px-4 py-2.5 border-t border-slate-100 bg-slate-50/50">
-      {questions.map((q) => (
-        <button
-          key={q}
-          onClick={() => onSelect(q)}
-          className="text-xs px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition-all"
-        >
-          {q}
-        </button>
-      ))}
+    <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/60 shrink-0">
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="flex items-center gap-1 text-xs text-slate-400 font-medium shrink-0">
+          <Lightbulb className="h-3 w-3" />
+          Try:
+        </span>
+        {questions.map((q) => (
+          <button
+            key={q}
+            onClick={() => onSelect(q)}
+            className="text-xs px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition-all whitespace-nowrap"
+          >
+            {q}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

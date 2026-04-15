@@ -16,10 +16,8 @@ function cn(...classes: (string | boolean | undefined)[]): string {
 
 async function extractTextFromPdf(file: File): Promise<string> {
   const pdfjsLib = await import('pdfjs-dist')
-  pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.mjs',
-    import.meta.url
-  ).toString()
+  // Served from /public — bypasses webpack so the ESM worker is not bundled
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
 
   const arrayBuffer = await file.arrayBuffer()
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
@@ -90,9 +88,9 @@ export function UploadZone({ label, variant, value, onChange }: UploadZoneProps)
   )
 
   const isOriginal = variant === 'original'
-  const accentBorder = isOriginal ? 'border-blue-200' : 'border-violet-200'
-  const accentBg = isOriginal ? 'bg-blue-50/50' : 'bg-violet-50/50'
-  const iconColor = isOriginal ? 'text-blue-400' : 'text-violet-400'
+  const accentBorder = isOriginal ? 'border-blue-300' : 'border-violet-300'
+  const accentBg = isOriginal ? 'bg-blue-50' : 'bg-violet-50'
+  const iconColor = isOriginal ? 'text-blue-500' : 'text-violet-500'
   const labelColor = isOriginal ? 'text-blue-700' : 'text-violet-700'
 
   return (
